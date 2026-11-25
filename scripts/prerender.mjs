@@ -18,15 +18,15 @@ const dist = path.join(root, 'dist');
 const template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
 
 // pathToFileURL matters on Windows: a bare `c:\...` path is not a valid ESM specifier.
-const { render, routeMeta, blogRoutes } = await import(
+const { render, routeMeta, blogRoutes, structuredData } = await import(
   pathToFileURL(path.join(dist, 'server', 'entry-server.js')).href
 );
 
 /**
  * Public origin, used for canonical URLs and the sitemap.
- * Override at build time: `SITE_ORIGIN=https://nexuspharmacy.com.au npm run build`
+ * Override at build time: `SITE_ORIGIN=https://nexuspharmacyconsultancy.com.au npm run build`
  */
-const origin = (process.env.SITE_ORIGIN ?? 'https://nexuspharmacy.com.au').replace(/\/$/, '');
+const origin = (process.env.SITE_ORIGIN ?? 'https://nexuspharmacyconsultancy.com.au').replace(/\/$/, '');
 
 function escapeHtml(value) {
   return value
@@ -41,7 +41,7 @@ function buildPage(route, appHtml, metaOverride) {
   const meta = metaOverride ?? routeMeta[route];
   const canonical = route === '/' ? `${origin}/` : `${origin}${route}`;
 
-  return template
+  let html = template
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(meta.title)}</title>`)
     .replace(
       /<meta\s+name="description"[\s\S]*?\/>/,
@@ -54,6 +54,19 @@ function buildPage(route, appHtml, metaOverride) {
         `<meta name="twitter:card" content="summary_large_image" />`,
     )
     .replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`);
+
+  const schemas = typeof structuredData === 'function' ? structuredData(route) : null;
+  if (schemas) {
+    const scripts = schemas
+      .map(
+        (schema) =>
+          `<script type="application/ld+json">${JSON.stringify(schema).replace(/<\//g, '<\\/')}</script>`,
+      )
+      .join('\n    ');
+    html = html.replace('</head>', `    ${scripts}\n  </head>`);
+  }
+
+  return html;
 }
 
 // '/404' is metadata for the SPA's catch-all route, not a crawlable page.

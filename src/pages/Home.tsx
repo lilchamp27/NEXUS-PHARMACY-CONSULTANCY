@@ -8,13 +8,14 @@ import {
   Unlink,
   ShieldCheck,
 } from 'lucide-react';
-import { Accordion, type Faq } from '@/components/Accordion';
+import { Accordion } from '@/components/Accordion';
 import { Card, Checklist, Grid, Panel, Quote, StatRow, Steps } from '@/components/Blocks';
 import { Button, TextLink } from '@/components/Button';
 import { Cta } from '@/components/Cta';
 import { PhoneAction } from '@/components/PhoneAction';
 import { Reveal } from '@/components/Reveal';
 import { Eyebrow, Lede, Section, SectionHead } from '@/components/Section';
+import { homeFaqs } from '@/data/faqs';
 import { site, trustPoints } from '@/data/site';
 import { useMeta } from '@/lib/useMeta';
 
@@ -93,29 +94,6 @@ const gpPoints = [
   'Reports are structured, prioritised, and designed to be actioned in a standard consultation',
   'All recommendations are advisory — every prescribing decision stays with you',
 ] as const;
-
-const faqs: readonly Faq[] = [
-  {
-    q: 'Is there a cost to the patient?',
-    a: 'The review itself is covered by Medicare at no charge to the patient. They may still pay the usual fee for the GP consultation where the referral is written and the follow-up appointment, unless their doctor bulk bills.',
-  },
-  {
-    q: 'Who determines whether a patient qualifies?',
-    a: "The patient’s GP assesses whether a review would be beneficial and writes the referral. Patients can raise it with their doctor directly, and we’re happy to discuss suitability with a practice before a referral is submitted.",
-  },
-  {
-    q: 'How frequently can a review be conducted?',
-    a: 'Generally once every two years, though a new review may be appropriate sooner if circumstances change — such as starting new medicines, returning from hospital, or a significant shift in health status.',
-  },
-  {
-    q: 'What should the patient have ready?',
-    a: 'Everything they use: prescription medicines, anything purchased from a pharmacy or shop, vitamins, supplements, herbal remedies, plus any inhalers, patches, creams, or eye and ear drops. Actual containers are more useful than a written list.',
-  },
-  {
-    q: 'Can a carer or family member participate?',
-    a: 'Absolutely. Family members, carers and community nurses are welcome and encouraged — they are often the people managing doses daily, and their perspective makes the review considerably more useful.',
-  },
-];
 
 const trustIcons = {
   shield: <ShieldCheck className="size-4" />,
@@ -404,7 +382,7 @@ export function Home() {
             </div>
           </Reveal>
 
-          <Accordion items={faqs} />
+          <Accordion items={homeFaqs} />
         </div>
       </Section>
 
