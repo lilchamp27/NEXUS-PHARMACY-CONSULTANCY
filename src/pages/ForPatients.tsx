@@ -1,11 +1,12 @@
 import { CalendarDays, FileText, Home as HomeIcon } from 'lucide-react';
-import { Accordion, type Faq } from '@/components/Accordion';
+import { Accordion } from '@/components/Accordion';
 import { Card, Grid, Panel, StatRow } from '@/components/Blocks';
 import { Button } from '@/components/Button';
 import { Cta } from '@/components/Cta';
 import { PageHero } from '@/components/PageHero';
 import { Reveal } from '@/components/Reveal';
 import { Eyebrow, Lede, Section, SectionHead } from '@/components/Section';
+import { patientFaqs } from '@/data/faqs';
 import { site } from '@/data/site';
 import { useMeta } from '@/lib/useMeta';
 
@@ -51,29 +52,6 @@ const timeline = [
     icon: <FileText className="size-5" />,
     title: 'After the visit',
     body: "The pharmacist writes a report and sends it to your doctor. Book a follow-up appointment — your doctor will go through the report with you and may change some medicines. You'll receive a Medication Management Plan you can share with any health professional you see.",
-  },
-];
-
-const faqs: readonly Faq[] = [
-  {
-    q: 'How much does it cost?',
-    a: "You don't pay for the Home Medicines Review. You may still pay for the appointment with your doctor where the referral is written, unless your doctor bulk bills.",
-  },
-  {
-    q: 'How do I get one?',
-    a: "Ask your doctor. They'll assess whether you'd benefit, and if so they'll write a referral to a credentialed pharmacist — usually choosing one for you. You can also ask for Nexus by name.",
-  },
-  {
-    q: 'How often can I have one?',
-    a: 'Have a new review if your circumstances change — for example, if you start new medicines. Otherwise you can generally have one every two years.',
-  },
-  {
-    q: 'Will my medicines be changed?',
-    a: 'Not by us. The pharmacist makes suggestions to your doctor, and your doctor discusses any change with you at your follow-up appointment. Nothing happens without you.',
-  },
-  {
-    q: 'Can someone be with me?',
-    a: 'Absolutely. A partner, family member, carer or community nurse is very welcome — particularly if they help you manage your medicines.',
   },
 ];
 
@@ -174,7 +152,7 @@ export function ForPatients() {
             </p>
           </Reveal>
 
-          <Accordion items={faqs} />
+          <Accordion items={patientFaqs} />
         </div>
       </Section>
 
